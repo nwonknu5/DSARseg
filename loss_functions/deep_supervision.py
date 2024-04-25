@@ -164,13 +164,15 @@ class MultipleOutputLossDSARCDA(MultipleOutputLossDSAR):
         return res_x[perm, :], res_y[perm]
     
     def discrepancy_slice_wasserstein(self, p1, p2):
+        channel = p1.shape[1]
+        p1 = p1.transpose(1,3).reshape(-1,channel)
+        p2 = p2.transpose(1,3).reshape(-1,channel)
         s = p1.shape
-        if s[1]>1:
-            proj = torch.randn(384, 128)
-            proj = to_cuda(proj)
-            proj *= torch.rsqrt(torch.sum(torch.mul(proj, proj), 0, keepdim=True))
-            p1 = torch.matmul(p1, proj)
-            p2 = torch.matmul(p2, proj)
+        proj = torch.randn(channel, 64) # 64 random projection dimensions
+        proj = to_cuda(proj)
+        proj *= torch.rsqrt(torch.sum(torch.mul(proj, proj), 0, keepdim=True))
+        p1 = torch.matmul(p1, proj) 
+        p2 = torch.matmul(p2, proj)
         p1 = torch.topk(p1, s[0], dim=0)[0]
         p2 = torch.topk(p2, s[0], dim=0)[0]
         dist = p1-p2

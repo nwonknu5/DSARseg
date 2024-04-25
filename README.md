@@ -26,7 +26,7 @@ Our method and comparison methods are mainly implemented on the lifelong nnUNet 
     * Penalty on Domain-specific Parameters - see ``loss_functions/deep_supervision.py`` (line 50-64)
 * Continual Domain Alignment strategy (CDA)
     * Estimation of Distribution - see ``network_training/nnUNetTrainerDSAR.py`` (line 331-412)
-    * Pseudo Samples Generation - see ``loss_functions/deep_supervision.py`` (line 146-176)
+    * Pseudo Samples Generation - see ``loss_functions/deep_supervision.py`` (line 146-180)
 
 
 ## Requirements
